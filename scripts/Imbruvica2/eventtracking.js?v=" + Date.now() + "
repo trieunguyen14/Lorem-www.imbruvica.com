@@ -1,0 +1,1373 @@
+﻿(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-31769815-6', 'auto');
+//ga('send', 'pageview');
+
+var videoIntervalId = 0;
+
+$(document).ready(function () {
+
+    
+    var loc = window.location.pathname.replace(/\/$/, '')
+
+    // home
+    if (loc == "" || loc == "/")
+    {
+        $("button").each(function () {
+
+            $(this).click(function (event) {
+
+                if ($(this).text() == "1") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'Homepage_You&Isupport_Carousel1', nonInteraction: true });
+                }
+                else if ($(this).text() == "2") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'Homepage_You&Isupport_Carousel2', nonInteraction: true });
+                }
+            });
+        });
+
+
+        $("a:not('ul.cat-list a'):not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+                console.log($(this));
+                //event.preventDefault(); // don't open the link yet
+                if (typeof href === "undefined") {
+                    // Video modal has no HREF assigned
+                    if ($(this).hasClass("close-reveal-modal")) {
+                        ga('send', 'event', { eventCategory: 'Video', eventAction: 'Stop', eventLabel: 'Close_Video_Button_Clicked', nonInteraction: true });
+                        console.log("Tracked in GA: " + "Video Close Button Clicked");
+                    }
+
+                    return;
+                }
+                else {
+                    console.log("Tracked in GA: " + href);
+                }
+
+                if (typeof href != 'undefined' && href.indexOf("you-i-support") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'Homepage_You&Isupport_LearnMore', nonInteraction: true });
+                    }
+                }
+
+                if ($(this).hasClass("button-6"))
+                {
+                    if ($(this).hasClass("content-toggle-1")) {
+                        ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'Homepage_WorksDifferent_OralTab', nonInteraction: true });
+                    }
+                    else if ($(this).hasClass("content-toggle-2")) {
+                        ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'Homepage_WorksDifferent_ChemoTab', nonInteraction: true });
+                    }
+                }
+
+                if ($(this).hasClass("video-button"))
+                {
+                    ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'Homepage_WatchBillsStory', nonInteraction: true });
+                    ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_Play', nonInteraction: true });
+                    videoIntervalId = setInterval(videoStatusHome, 7130);
+
+                }
+
+                
+
+            });
+        });
+
+    }
+
+    
+
+    // register
+    if (loc.startsWith("/patient-support/access-support/enroll/register-thank-you")) {
+        $("a[href='/home']").click(function () {
+            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'You&ISubmit_Home' });
+        });
+    }
+
+    else if (loc.startsWith("/patient-support/access-support/enroll")) {
+
+        $("input[type='submit']").click(function () {
+            ga('send', 'event', { eventCategory: 'Registration', eventAction: 'Click', eventLabel: 'You&Iregistration_Submit' });
+        });
+
+        $("a[href$='pharmacyclics.com/privacy-policy']").first().click(function () {
+            ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&Iregistration_PrivacyPolicy', nonInteraction: true });
+        });
+    }
+
+    else if (loc.startsWith("/update-preferences")) {
+        $("input[type='submit']").click(function () {
+            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'UnsubscribeButton', nonInteraction: true });
+        });
+    }
+    else if (loc == "/contact-us") {
+        $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+
+                if (href.indexOf("www.pharmacyclics.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ContactUs_Pharmacyclics', nonInteraction: true });
+                }
+                else if (href.indexOf("medinfo@pcyc.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Email', eventAction: 'Click', eventLabel: 'ContactUs_EmailPharmacyclics', nonInteraction: true });
+                }
+                else if (href.indexOf("pharmacyclicsmedinfo.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ContactUs_PharmacyclicsMedInfo', nonInteraction: true });
+                }
+                else if (href.indexOf("janssenbiotech.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ContactUs_Janssen', nonInteraction: true });
+                }
+                
+
+            });
+        });
+
+        $(".show-lso").each(function () {
+
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            $(this).click(function (event) {
+
+                if (href.indexOf("fda.gov/safety/medwatch") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ContactUs_FDAMedWatch', nonInteraction: true });
+                }
+            });
+        });
+
+    }
+
+
+        // support
+    else if (loc == "/you-i-support" || loc.startsWith("/patient-support")) {
+
+        $(".readMoreBtn").click(function (event) {
+            ga('send', 'event', { eventCategory: 'Expand', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_ReadMore', nonInteraction: true });
+        });
+
+        $(".show-lso").each(function () {
+
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            $(this).click(function (event) {
+
+                if (href.indexOf("www.lls.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_LLS', nonInteraction: true });
+                }
+                else if (href.indexOf("panfoundation.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_PAN', nonInteraction: true });
+                }
+            });
+        });
+
+        $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+
+                if (href == "#tab1") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'You&I_AccessSupport', nonInteraction: true });
+                }
+                else if (href == "#tab2") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport', nonInteraction: true });
+                }
+                else if (href == "#tab3") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'You&I_NurseSupportAndResources', nonInteraction: true });
+                }
+                else if (href.indexOf("register") >= 0) {
+                    if ($(this).hasClass("access")) {
+                        ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_AccessSupport_Enroll', nonInteraction: true });
+                    }
+                    else if ($(this).hasClass("support")) {
+                        ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_Enroll', nonInteraction: true });
+                    }
+                    else if ($(this).hasClass("nurse")) {
+                        ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_NurseCallSupport_Enroll', nonInteraction: true });
+                    }
+                }
+                else if (href.indexOf("www.youandisupport.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AccessSupport_You&Ilink', nonInteraction: true });
+                }
+                else if (href.indexOf("jjpaf.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_JJPAF', nonInteraction: true });
+                }
+
+
+            });
+
+        });
+    };
+
+
+
+    // cll
+    if (loc.startsWith("/cll")) {
+
+        $(".readMoreBtn").click(function (event) {
+            ga('send', 'event', { eventCategory: 'Expand', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_ReadMore', nonInteraction: true });
+        });
+
+
+
+   
+        $(".has-tip").each(function () {
+
+            var text = $(this).text();
+
+            $(this).mouseover(function (event) {
+                if (text == "leukemia")
+                {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'CLL_IMBforCLL_HoverLeukemia', nonInteraction: true });
+                }
+                else if (text == "B cells") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'CLL_IMBforCLL_HoverBCell', nonInteraction: true });
+                }
+                else if (text == "lymph nodes") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'CLL_IMBforCLL_HoverLymphNodes', nonInteraction: true });
+                }
+                else if (text == "bone marrow") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'CLL_IMBforCLL_HoverChromosome', nonInteraction: true });
+                }
+                else if (text == "BTK") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'CLL_HowIMBWorks_HoverBTK', nonInteraction: true });
+                }
+                
+               
+            });
+
+        });
+
+
+        $(".show-lso").each(function () {
+
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            $(this).click(function (event) {
+
+                if (href.indexOf("www.lls.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_LLSLink', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancer.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_Cancerorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.lymphoma.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_lymphomaorg', nonInteraction: true });
+                }
+                else if (href.indexOf("patientadvocate.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_patientadvocateorg', nonInteraction: true });
+                }
+                else if (href.indexOf("advocacyconnector.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_advocacyconnectororg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancercare.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_cancercareorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancersupportcommunity.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_cancersupportcommunity', nonInteraction: true });
+                }
+                else if (href.indexOf("www.nccn.org/patients") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_nccnorg', nonInteraction: true });
+                }
+                else if (href.indexOf("mhm.care4today.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_Care4TodayLink', nonInteraction: true });
+                }
+            });
+        });
+
+        //  $("a:not('ul.cat-list a'):not(a.show-lso):not(.mob-menu a)").each(function () {
+        $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+                //event.preventDefault(); // don't open the link yet
+                console.log($(this));
+                console.log("Tracked in GA: " + href);
+
+                // CLL
+                if (href.indexOf("cll/imbruvica-for-cll") >= 0 || href.indexOf("imbruvica-for-cll") >= 0) {
+
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_TakingIMB_IMBforCLL', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Nav_Imbruvica', nonInteraction: true });
+                    }
+                }
+
+                
+                else if (href.indexOf("cll/dosing-and-administration") >= 0 || href.indexOf("dosing-and-administration") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_IMBforCLL_TakingIMB', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_HowIMBWorks_TakingIMB', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Nav_TakingIMB', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("cll/how-does-imbruvica-work") >= 0 || href.indexOf("how-does-imbruvica-work") >= 0
+                    || href.indexOf("cll/how-imbruvica-works") >= 0 || href.indexOf("how-imbruvica-works") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_TakingIMB_HowIMBWorks', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_SideEffects_HowIMBWorks', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Nav_HowIMBWorks', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("cll/side-effects") >= 0 || href.indexOf("side-effects") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_HowIMBWorks_SideEffects', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_Resources_SideEffects', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Nav_SideEffects', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("cll/patient-resources/cll-events") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_AmbassadorProgram', nonInteraction: true });
+                }
+
+                else if (href.indexOf("cll/patient-resources") >= 0 || href.indexOf("patient-resources") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_CLL_SideEffects_Resources', nonInteraction: true });
+                        }
+                        
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Nav_Resources', nonInteraction: true });
+                    }
+                }
+
+                
+                else if (href == "/docs/librariesprovider3/default-document-library/cll-branded-patient-brochure---feb-2015.pdf?sfvrsn=2") {
+                    ga('send', 'event', { eventCategory: 'Resources', eventAction: 'Download', eventLabel: 'CLL_IMBforCLL_PatientBrochure', nonInteraction: true });
+                }
+
+                
+                else if (href.indexOf("you-i-support") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+
+                        if (loc == "/cll/imbruvica-for-cll" || loc == "/cll") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/cll/dosing-and-administration") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/cll/how-does-imbruvica-work" || loc == "/cll/how-imbruvica-works") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_HowIMGWorks_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/cll/side-effects") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_SideEffects_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/cll/patient-resources" || loc == "/cll/patient-resources/cll-events") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Resources_LearnMoreYou&I', nonInteraction: true });
+                        }
+                       
+                    }
+                }
+
+               else if ($(this).hasClass("video-button")) {
+                   ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_BillsStory', nonInteraction: true });
+                   ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_Play', nonInteraction: true });
+                   videoIntervalId = setInterval(videoStatusCll, 7130);
+               }
+
+               
+
+               else if (href == "#") {
+
+                   if ($(this).hasClass("pageShare")) {
+                       if (loc == "/cll/imbruvica-for-cll" || loc == "/cll") {
+                           ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'CLL_IMBforCLL_SharePage', nonInteraction: true });
+                       }
+                       else if (loc == "/cll/dosing-and-administration") {
+                           ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'CLL_TakingIMB_SharePage', nonInteraction: true });
+                       }
+                       else if (loc == "/cll/how-does-imbruvica-work" || loc == "/cll/how-imbruvica-works") {
+                           ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'CLL_HowIMBWorks_SharePage', nonInteraction: true });
+                       }
+                       else if (loc == "/cll/side-effects") {
+                           ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'CLL_SideEffects_SharePage', nonInteraction: true });
+                       }
+                       else if (loc == "/cll/patient-resources" || loc == "/cll/patient-resources/cll-events") {
+                           ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'CLL_Resources_SharePage', nonInteraction: true });
+                       }
+                   }
+               }
+
+               else if (href == "#tab1") {
+
+                   if (loc.startsWith("/cll/dosing-and-administration")) {
+                       ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_DosingTip_Routine', nonInteraction: true });
+                   }
+                   else if (loc == "/cll/patient-resources" || loc == "/cll/patient-resources/cll-events") {
+                       ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'CLL_Resources_ResourcesTab', nonInteraction: true });
+                   }
+               }
+
+               else if (href == "#tab2") {
+
+                   if (loc.startsWith("/cll/dosing-and-administration")) {
+                       ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_DosingTip_Strategies', nonInteraction: true });
+                   }
+                   else if (loc == "/cll/patient-resources" || loc == "/cll/patient-resources/cll-events") {
+                       ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'CLL_Resources_AmbassadorTab', nonInteraction: true });
+                   }
+               }
+               else if (href.indexOf("register") >= 0) {
+                   ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_EnrollNow', nonInteraction: true });
+               }
+
+           
+               else if (href.indexOf("patient-support/access-support/enroll") >= 0) {
+                   ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_Resources_You&Ilink', nonInteraction: true });
+               }
+
+               
+               
+            });
+        });
+
+        $("img[src$='care4today.png?sfvrsn=0']").click(function () {
+            ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_Care4TodayApp', nonInteraction: true });
+        });
+
+
+        
+    }  // end of cll
+
+
+
+
+    // mcl
+    if (loc.startsWith("/mcl")) {
+
+        $(".readMoreBtn").click(function (event) {
+            ga('send', 'event', { eventCategory: 'Expand', eventAction: 'Click', eventLabel: 'MCL_IMBforMCL_ReadMore', nonInteraction: true });
+        });
+
+
+        $(".has-tip").each(function () {
+
+            var text = $(this).text();
+
+            $(this).mouseover(function (event) {
+                if (text == "lymphoma") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'MCL_IMBforMCL_HoverLymphoma', nonInteraction: true });
+                }
+                else if (text == "B cells") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'MCL_IMBforMCL_HoverBCell', nonInteraction: true });
+                }
+                else if (text == "lymph nodes" || text == "lymph nodes,") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'MCL_IMBforMCL_HoverLymphNodes', nonInteraction: true });
+                }
+                else if (text == "bone marrow") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'MCL_IMBforMCL_HoverBoneMarrow', nonInteraction: true });
+                }
+                else if (text == "BTK") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'MCL_HowIMBWorks_HoverBTK', nonInteraction: true });
+                }
+            });
+        });
+
+
+        $(".show-lso").each(function () {
+
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            $(this).click(function (event) {
+
+                if (href.indexOf("www.lls.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_LLSLink', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancer.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_Cancerorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.lymphoma.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_lymphomaorg', nonInteraction: true });
+                }
+                else if (href.indexOf("patientadvocate.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_patientadvocateorg', nonInteraction: true });
+                }
+                else if (href.indexOf("advocacyconnector.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_advocacyconnectororg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancercare.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_cancercareorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancersupportcommunity.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_cancersupportcommunity', nonInteraction: true });
+                }
+                else if (href.indexOf("www.nccn.org/patients") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_Resources_nccnorg', nonInteraction: true });
+                }
+                else if (href.indexOf("mhm.care4today.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_Care4TodayLink', nonInteraction: true });
+                }
+            });
+        });
+
+        //  $("a:not('ul.cat-list a'):not(a.show-lso):not(.mob-menu a)").each(function () {
+        $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+                //event.preventDefault(); // don't open the link yet
+                console.log($(this));
+                console.log("Tracked in GA: " + href);
+
+                if (href == "/mcl/what-is-mantle-cell-lymphoma/MCL-Patient-Brochure") {
+                    ga('send', 'event', { eventCategory: 'Resources', eventAction: 'Download', eventLabel: 'MCL_IMBforMCL_PatientBrochure', nonInteraction: true });
+                }
+
+                // CLL
+                else if (href.indexOf("mcl/imbruvica-for-mcl") >= 0 || href.indexOf("imbruvica-for-mcl") >= 0 || href.indexOf("mcl/what-is-mantle-cell-lymphoma") >= 0
+                    || href.indexOf("what-is-mantle-cell-lymphoma") >= 0){
+
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_TakingIMB_IMBforMCL', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Nav_Imbruvica', nonInteraction: true });
+                    }
+                }
+
+
+                else if (href.indexOf("mcl/dosing-and-administration") >= 0 || href.indexOf("dosing-and-administration") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_IMBforMCL_TakingIMB', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_HowIMBWorks_TakingIMB', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Nav_TakingIMB', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("mcl/how-does-imbruvica-work") >= 0 || href.indexOf("how-does-imbruvica-work") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_TakingIMB_HowIMBWorks', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_SideEffects_HowIMBWorks', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Nav_HowIMBWorks', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("mcl/side-effects") >= 0 || href.indexOf("side-effects") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_HowIMBWorks_SideEffects', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_Resources_SideEffects', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Nav_SideEffects', nonInteraction: true });
+                    }
+                }
+
+                //else if (href.indexOf("mcl/patient-resources/mcl-events") >= 0) {
+                    //    ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_AmbassadorProgram', nonInteraction: true });
+                //}
+
+                else if (href.indexOf("mcl/patient-resources") >= 0 || href.indexOf("patient-resources") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_MCL_SideEffects_Resources', nonInteraction: true });
+                        }
+
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Nav_Resources', nonInteraction: true });
+                    }
+                }
+
+
+                else if (href.indexOf("you-i-support") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+
+                        if (loc == "/mcl/what-is-mantle-cell-lymphoma" || loc == "/mcl") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_IMBforMCL_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/dosing-and-administration") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/how-does-imbruvica-work") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_HowIMGWorks_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/side-effects") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_SideEffects_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/patient-resources" || loc == "/mcl/patient-resources/mcl-events") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Resources_LearnMoreYou&I', nonInteraction: true });
+                        }
+
+                    }
+                }
+
+                //else if ($(this).hasClass("video-button")) {
+                //    ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_BillsStory' });
+                //}
+
+
+
+                else if (href == "#") {
+
+                    if ($(this).hasClass("pageShare")) {
+                        if (loc == "/mcl/what-is-mantle-cell-lymphoma" || loc == "/mcl") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'MCL_IMBforMCL_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/dosing-and-administration") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'MCL_TakingIMB_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/how-does-imbruvica-work") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'MCL_HowIMBWorks_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/side-effects") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'MCL_SideEffects_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/mcl/patient-resources" || loc == "/mcl/patient-resources/mcl-events") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'MCL_Resources_SharePage', nonInteraction: true });
+                        }
+                    }
+                }
+
+                else if (href == "#tab1") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_DosingTip_Routine', nonInteraction: true });
+                }
+
+                else if (href == "#tab2") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_DosingTip_Strategies', nonInteraction: true });
+                }
+
+                else if (href.indexOf("register") >= 0) {
+                    if (loc == "/mcl/dosing-and-administration") {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_EnrollNow', nonInteraction: true });
+                    }
+                    else if (loc == "/mcl/patient-resources" || loc == "/mcl/patient-resources/mcl-events") {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'MCL_Resources_You&Ilink', nonInteraction: true });
+                    }
+
+                }
+
+            });
+        });
+
+
+        $("img[src$='care4today.png?sfvrsn=0']").click(function () {
+            ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'MCL_TakingIMB_Care4TodayApp', nonInteraction: true });
+        });
+
+
+
+    }  // end of mcl
+
+
+
+    // wm
+    if (loc.startsWith("/wm")) {
+
+        $(".readMoreBtn").click(function (event) {
+            ga('send', 'event', { eventCategory: 'Expand', eventAction: 'Click', eventLabel: 'WM_IMBforWM_ReadMore', nonInteraction: true });
+        });
+
+
+        $(".has-tip").each(function () {
+
+            var text = $(this).text();
+
+            $(this).mouseover(function (event) {
+                if (text == "lymphoma") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'WM_IMBforWM_HoverLymphoma', nonInteraction: true });
+                }
+                else if (text == "IgM levels") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'WM_IMBforWM_Hoverlgmlevels', nonInteraction: true });
+                }
+                else if (text == "BTK") {
+                    ga('send', 'event', { eventCategory: 'Hover', eventAction: 'Hover', eventLabel: 'WM_HowIMBWorks_HoverBTK', nonInteraction: true });
+                }
+            });
+        });
+
+
+        $(".show-lso").each(function () {
+
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            $(this).click(function (event) {
+
+                if (href.indexOf("www.lls.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_LLSLink', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancer.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_Cancerorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.lymphoma.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_lymphomaorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.iwmf.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_iwmf', nonInteraction: true });
+                }
+                else if (href.indexOf("patientadvocate.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_patientadvocateorg', nonInteraction: true });
+                }
+                else if (href.indexOf("advocacyconnector.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_advocacyconnectororg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancercare.org") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_cancercareorg', nonInteraction: true });
+                }
+                else if (href.indexOf("www.cancersupportcommunity.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_cancersupportcommunity', nonInteraction: true });
+                }
+                else if (href.indexOf("www.nccn.org/patients") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_Resources_nccnorg', nonInteraction: true });
+                }
+                else if (href.indexOf("mhm.care4today.com") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_TakingIMB_Care4TodayLink', nonInteraction: true });
+                }
+            });
+        });
+
+        //  $("a:not('ul.cat-list a'):not(a.show-lso):not(.mob-menu a)").each(function () {
+        $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            if (typeof href === "undefined") return;
+
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+                //event.preventDefault(); // don't open the link yet
+                console.log($(this));
+                console.log("Tracked in GA: " + href);
+
+                if (href == "/wm/what-is-waldenstroms-macroglobulinemia/WM-Patient-Brochure") {
+                    ga('send', 'event', { eventCategory: 'Resources', eventAction: 'Download', eventLabel: 'WM_IMBforWM_PatientBrochure', nonInteraction: true });
+                }
+
+                    // CLL
+                else if (href.indexOf("wm/imbruvica-for-wm") >= 0 || href.indexOf("imbruvica-for-wm") >= 0 ||
+                    href.indexOf("wm/what-is-waldenstroms-macroglobulinemia") >= 0 || href.indexOf("what-is-waldenstroms-macroglobulinemia") >= 0) {
+
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_TakingIMB_IMBforWM', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Nav_Imbruvica', nonInteraction: true });
+                    }
+                }
+
+
+                else if (href.indexOf("wm/dosing-and-administration") >= 0 || href.indexOf("dosing-and-administration") >= 0
+                     || href.indexOf("wm/taking-imbruvica") >= 0 || href.indexOf("taking-imbruvica") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_IMBforWM_TakingIMB', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_HowIMBWorks_TakingIMB', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Nav_TakingIMB', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("wm/how-does-imbruvica-work") >= 0 || href.indexOf("how-does-imbruvica-work") >= 0
+                    || href.indexOf("wm/how-imbruvica-works") >= 0 || href.indexOf("how-imbruvica-works") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_TakingIMB_HowIMBWorks', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_SideEffects_HowIMBWorks', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Nav_HowIMBWorks', nonInteraction: true });
+                    }
+                }
+
+                else if (href.indexOf("wm/side-effects") >= 0 || href.indexOf("side-effects") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_HowIMBWorks_SideEffects', nonInteraction: true });
+                        }
+                        else {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_Resources_SideEffects', nonInteraction: true });
+                        }
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Nav_SideEffects', nonInteraction: true });
+                    }
+                }
+
+
+
+                else if (href.indexOf("wm/patient-resources") >= 0 || href.indexOf("patient-resources") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+                        if ($(this).hasClass("btn-right")) {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'BottomNav_WM_SideEffects_Resources', nonInteraction: true });
+                        }
+
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Nav_Resources', nonInteraction: true });
+                    }
+                }
+
+
+                else if (href.indexOf("you-i-support") >= 0) {
+                    if ($(this).hasClass("button-1")) {
+
+                        if (loc == "/wm/what-is-waldenstroms-macroglobulinemia" || loc == "/wm" || loc == "/wm/imbruvica-for-wm") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_IMBforWM_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/dosing-and-administration" || loc == "/wm/taking-imbruvica") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_TakingIMB_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/how-does-imbruvica-work" || loc == "/wm/how-imbruvica-works") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_HowIMGWorks_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/side-effects") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_SideEffects_LearnMoreYou&I', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/patient-resources" || loc == "/wm/patient-resources/wm-events") {
+                            ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Resources_LearnMoreYou&I', nonInteraction: true });
+                        }
+
+                    }
+                }
+
+                    //else if ($(this).hasClass("video-button")) {
+                    //    ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'CLL_IMBforCLL_BillsStory', nonInteraction: true });
+                    //}
+
+
+
+                else if (href == "#") {
+
+                    if ($(this).hasClass("pageShare")) {
+                        if (loc == "/wm/what-is-waldenstroms-macroglobulinemia" || loc == "/wm" || loc == "/wm/imbruvica-for-wm") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'WM_IMBforWM_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/dosing-and-administration" || loc == "/wm/taking-imbruvica") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'WM_TakingIMB_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/how-does-imbruvica-work" || loc == "/wm/how-imbruvica-works") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'WM_HowIMBWorks_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/side-effects") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'WM_SideEffects_SharePage', nonInteraction: true });
+                        }
+                        else if (loc == "/wm/patient-resources" || loc == "/wm/patient-resources/wm-events") {
+                            ga('send', 'event', { eventCategory: 'Email', eventAction: 'Email', eventLabel: 'WM_Resources_SharePage', nonInteraction: true });
+                        }
+                    }
+                }
+
+                else if (href == "#tab1") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'WM_TakingIMB_DosingTip_Routine', nonInteraction: true });
+                }
+
+                else if (href == "#tab2") {
+                    ga('send', 'event', { eventCategory: 'Tab', eventAction: 'Click', eventLabel: 'WM_TakingIMB_DosingTip_Strategies', nonInteraction: true });
+                }
+
+                else if (href.indexOf("register") >= 0) {
+                    if (loc == "/wm/dosing-and-administration" || loc == "/wm/taking-imbruvica") {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_TakingIMB_EnrollNow', nonInteraction: true });
+                    }
+                    else if (loc == "/wm/patient-resources" || loc == "/wm/patient-resources/wm-events") {
+                        ga('send', 'event', { eventCategory: 'Navigation', eventAction: 'Click', eventLabel: 'WM_Resources_You&Ilink', nonInteraction: true });
+                    }
+
+                }
+
+            });
+        });
+
+
+        $("img[src$='care4today.png?sfvrsn=0']").click(function () {
+            ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'WM_TakingIMB_Care4TodayApp', nonInteraction: true });
+        });
+
+
+
+    }  // end of wm
+
+
+
+    $(".show-lso").each(function () {
+
+        var href = $(this).attr("href");
+        if (typeof href === "undefined") {
+            href = $(this).attr("data-href");
+        }
+        if (typeof href === "undefined") return;
+
+        $(this).click(function (event) {
+            if (href.indexOf("www.imbruvicahcp.com") >= 0) {
+                if ($(this).hasClass("button-1")) {
+                    ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'TopNav_HCPSite', nonInteraction: true });
+
+                    $(".leaving-ibm-hcp-ok").click(function (event) { // when someone clicks these links
+                        console.log($(this));
+                        ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'HCPSite_Click_OK', nonInteraction: true });
+                    });
+
+                    $(".leaving-ibm-hcp-cancel").click(function (event) { // when someone clicks these links
+                        console.log($(this));
+                        ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'HCPSite_Click_Cancel', nonInteraction: true });
+                    });
+
+                }
+            }
+        });
+    });
+
+
+    
+    $(".toggle").click(function () {
+        if ($(this).text() == "+")
+        {
+            ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'BotNav_ISIOpen', nonInteraction: true });
+        }
+    });
+
+    $(".btn-dropdown").click(function () {
+        if ($(this).text().indexOf("Learn More") > 0) {
+            ga('send', 'event', { eventCategory: 'Expand', eventAction: 'Click', eventLabel: 'TopNav_You&I', nonInteraction: true });
+        }
+    });
+
+    // Run global on other pages.
+    if (loc != "" || loc != "/") {
+        //global tracking only; does not track side nav links, lso interstitials, or very top nav links. 
+        $("a:not('ul.cat-list a'):not(a.show-lso):not(.mob-menu a)").each(function () {
+            var href = $(this).attr("href");
+            if (typeof href === "undefined") {
+                href = $(this).attr("data-href");
+            }
+            var target = $(this).attr("target");
+            var text = $(this).text();
+            $(this).click(function (event) { // when someone clicks these links
+                console.log($(this));
+                //event.preventDefault(); // don't open the link yet
+                if (typeof href === "undefined") {
+                    // Video modal has no HREF assigned
+                    if ($(this).hasClass("close-reveal-modal")) {
+                        ga('send', 'event', { eventCategory: 'Video', eventAction: 'Stop', eventLabel: 'Close_Video_Button_Clicked', nonInteraction: true });
+                        console.log("Tracked in GA: " + "Video Close Button Clicked");
+                    }
+
+                    return;
+                }
+                else {
+                    console.log("Tracked in GA: " + href);
+                }
+
+                if (href == "/") {
+                    if ($(this).hasClass("logo")) {
+                        ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'TopNav_Logo', nonInteraction: true });
+                    }
+                    else if ($(this).hasClass("footer-link")) {
+                        ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'BotNav_Home', nonInteraction: true });
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'TopNav_Home', nonInteraction: true });
+                    }
+                }
+
+
+                if ($(this).hasClass("openFloatingIsi")) {
+                    if ($(this).hasClass("footer-link")) {
+                        if (href == "#") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'BotNav_ImportantSideEffects', nonInteraction: true });
+                    }
+                    else {
+                        if (href == "#") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_ImportantSideEffects', nonInteraction: true });
+                    }
+                }
+
+
+                if (href.indexOf("/prescribing-information") >= 0) {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'click', eventLabel: 'TopNav_PI', nonInteraction: true });
+                }
+
+
+
+
+                if (href.indexOf("/legal") >= 0) {
+                    if ($(this).hasClass("isi-link")) {
+                        ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ISI_LegalNotice', nonInteraction: true });
+                    }
+                    else {
+                        ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'BotNav_LegalNotice', nonInteraction: true });
+                    }
+                }
+
+
+                if (href.indexOf("www.pharmacyclics.com/privacy-policy") >= 0) {
+                    if ($(this).hasClass("isi-link")) {
+                        ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'ISI_PrivacyPolicy', nonInteraction: true });
+                    }
+                    else if ($(this).hasClass("footer-link")) {
+                        ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'BotNav_PrivacyPolicy', nonInteraction: true });
+                    }
+                }
+
+                //            if (href.indexOf("/important-safety-information") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_ISI', nonInteraction: true });
+
+
+                if (href == "/docs/librariesprovider7/default-document-library/prescribing_information.pdf?sfvrsn=2") // PI
+                {
+                    ga('send', 'event', { eventCategory: 'Link', eventAction: 'click', eventLabel: 'BotNav_PI', nonInteraction: true });
+
+                }
+
+                if (href == "/contact-us") {
+                    ga('send', 'event', { eventCategory: 'navigation', eventAction: 'Click', eventLabel: 'BotNav_ContactUs', nonInteraction: true });
+                }
+
+                if (href == "/unsubscribe") {
+                    ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'BotNav_UnsubscribUpdate', nonInteraction: true });
+                }
+
+
+
+                if (href == "/you-i-support") {
+                    if ($(this).hasClass("button-3")) {
+                        ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_You&I_Expand_LearnMore', nonInteraction: true });
+                    }
+                }
+
+                /* if (href == "/dosing") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_Dosing', nonInteraction: true });
+                 if (href == "/sr") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_SupportResources', nonInteraction: true });
+                 if (href == "/cll") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_CLL', nonInteraction: true });
+                 if (href == "/mcl") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_MCL', nonInteraction: true });
+                 if (href == "/wm") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_WM', nonInteraction: true });
+                 
+                 if (href == "/cll/efficacy-data/study-design") ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_Efficacy_StudyDesign_CLL', nonInteraction: true });
+                 if (href == "/cll/efficacy-data/progression-free-survival") ga('send', 'event', { eventCategory: 'register', eventAction: 'click', eventLabel: 'TopNav_Efficacy_PFS_CLL', nonInteraction: true });
+                 */
+
+                //setTimeout(function () { // now wait 300 milliseconds...
+                //    window.open(href, (!target ? "_self" : target)); // ...and open the link as usual
+                //}, 300);
+            });
+        });
+    }
+
+    $(".leaving-ibm-hcp-ok").click(function (event) { // when someone clicks these links
+        console.log($(this));
+        ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'HCPSite_Click_OK', nonInteraction: true });
+    });
+
+    $(".leaving-ibm-hcp-cancel").click(function (event) { // when someone clicks these links
+        console.log($(this));
+        ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'HCPSite_Click_Cancel', nonInteraction: true });
+    });
+
+    
+
+
+    $(".show-lso").click(function () {
+
+        setTimeout(function () {
+
+            $(".leaving-imb-ok").click(function (event) { // when someone clicks these links
+                console.log($(this));
+                ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'LeavingIMB_OK', nonInteraction: true });
+            });
+
+            $(".leaving-imb-cancel").click(function (event) { // when someone clicks these links
+                console.log($(this));
+                ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'LeavingIMB_Cancel', nonInteraction: true });
+            });
+
+            $("a[href='http://www.pharmacyclics.com/privacy-policy']").click(function () {
+
+                if ($(this).hasClass("leaving-imp-pcyc")) {
+                    ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'LeavingIMB_PCYC', nonInteraction: true });
+                }
+                else if ($(this).hasClass("leaving-imb")) {
+                    ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'LeavingIMB_PrivacyPolicy', nonInteraction: true });
+                }
+            });
+
+
+        }, 500)
+
+        
+    });
+
+////Side nav tracking only
+//    $("ul.cat-list a").each(function () {
+//        var href = $(this).attr("href");
+//        var target = $(this).attr("target");
+//        var text = $(this).text();
+//        $(this).click(function (event) { // when someone clicks these links
+//            event.preventDefault(); // don't open the link yet
+
+    //            if (href.indexOf("/register") >= 0) ga('send', 'event', { eventCategory: 'register', eventAction: 'click', eventLabel: 'TopNav_Register', nonInteraction: true });
+    //            if (href.indexOf("www.imbruvica.com") >= 0) ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'TopNav_PatientSite', nonInteraction: true });
+    //            if (href.indexOf("www.pharmacyclicsmedinfo.com") >= 0) ga('send', 'event', { eventCategory: 'link', eventAction: 'click', eventLabel: 'TopNav_MedicalInformation', nonInteraction: true });
+    //            //if (href.indexOf("/important-safety-information") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_ISI', nonInteraction: true });
+    //            if (href.indexOf("prescribing_information.pdf") >= 0) ga('send', 'event', { eventCategory: 'resource', eventAction: 'download', eventLabel: 'TopNav_PI', nonInteraction: true });
+    //            if (href.indexOf("/cancer-type") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType', nonInteraction: true });
+    //            if (href.indexOf("/cll") >= 0) console.log('sidenav cll'); ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_CLL', nonInteraction: true });
+    //            if (href.indexOf("/mcl") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_MCL', nonInteraction: true });
+    //            if (href.indexOf("/wm") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_CancerType_WM', nonInteraction: true });
+    //            if (href.indexOf("/efficacy") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_Efficacy', nonInteraction: true });
+    //            if (href.indexOf("/cll/efficacy-data/study-design") >= 0) ga('send', 'event', { eventCategory: 'navigation', eventAction: 'click', eventLabel: 'TopNav_Efficacy_StudyDesign_CLL', nonInteraction: true });
+
+//            //CLL
+    //            if (href.indexOf("/cll/efficacy-data/progression-free-survival") >= 0) ga('send', 'event', { eventCategory: 'register', eventAction: 'click', eventLabel: 'topnav_register', nonInteraction: true });
+
+//            setTimeout(function () { // now wait 300 milliseconds...
+//                window.open(href, (!target ? "_self" : target)); // ...and open the link as usual
+//            }, 300);
+//        });
+//    });
+
+//    $('li#search').click(function (event) { // when someone clicks search
+//        event.preventDefault(); 
+    //        ga('send', 'event', { eventCategory: 'search', eventAction: 'click', eventLabel: 'TopNav_Search_button', nonInteraction: true });
+
+//    });
+
+
+});
+
+
+var vid = document.getElementById('video_player_stories');
+function videoStatus(where) {
+    
+
+
+    if (vid != undefined && !vid.paused) {
+
+        var len = (vid.currentTime * 100) / vid.duration
+        len = Math.round(len);
+
+        
+        if (len == 25) {
+            ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_25', nonInteraction: true });
+        }
+        else if (len == 50) {
+            ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_50', nonInteraction: true });
+        }
+        else if (len == 75) {
+            ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_75', nonInteraction: true });
+        }
+        else if (len == 99) {
+            ga('send', 'event', { eventCategory: 'Video', eventAction: 'Play', eventLabel: 'BillsStory_Video_100', nonInteraction: true });
+        }
+    }
+}
+
+
+function videoStatusHome() {
+    videoStatus("home");
+}
+
+
+function videoStatusCll() {
+    videoStatus("cll");
+}
+
+function registerYouandIEvents() {
+    $("a:not(a.show-lso):not(.mob-menu a)").each(function () {
+        var href = $(this).attr("href");
+        if (typeof href === "undefined") {
+            href = $(this).attr("data-href");
+        }
+        if (typeof href === "undefined") return;
+
+        var target = $(this).attr("target");
+        var text = $(this).text();
+        $(this).click(function (event) { // when someone clicks these links
+
+            if (href.indexOf("register") >= 0) {
+                if ($(this).hasClass("access")) {
+                    ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_AccessSupport_Enroll', nonInteraction: true });
+                }
+                else if ($(this).hasClass("support")) {
+                    ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_Enroll', nonInteraction: true });
+                }
+                else if ($(this).hasClass("nurse")) {
+                    ga('send', 'event', { eventCategory: 'Enroll', eventAction: 'Click', eventLabel: 'You&I_NurseCallSupport_Enroll', nonInteraction: true });
+                }
+            }
+            else if (href.indexOf("jjpaf.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_JJPAF', nonInteraction: true });
+            }
+        });
+    });
+
+
+
+    $(".show-lso").each(function () {
+
+        var href = $(this).attr("href");
+        if (typeof href === "undefined") {
+            href = $(this).attr("data-href");
+        }
+        if (typeof href === "undefined") return;
+
+        $(this).click(function (event) {
+
+            if (href.indexOf("www.lls.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_LLS', nonInteraction: true });
+            }
+            else if (href.indexOf("panfoundation.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'You&I_AffordabilitySupport_PAN', nonInteraction: true });
+            }
+        });
+    });
+
+}
+
+
+function reRegisterCllEvents()
+{
+    $(".show-lso").each(function () {
+
+        var href = $(this).attr("href");
+        if (typeof href === "undefined") {
+            href = $(this).attr("data-href");
+        }
+        if (typeof href === "undefined") return;
+
+        $(this).click(function (event) {
+
+            if (href.indexOf("www.lls.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_LLSLink', nonInteraction: true });
+            }
+            else if (href.indexOf("www.cancer.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_Cancerorg', nonInteraction: true });
+            }
+            else if (href.indexOf("www.lymphoma.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_lymphomaorg', nonInteraction: true });
+            }
+            else if (href.indexOf("patientadvocate.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_patientadvocateorg', nonInteraction: true });
+            }
+            else if (href.indexOf("advocacyconnector.com") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_advocacyconnectororg', nonInteraction: true });
+            }
+            else if (href.indexOf("www.cancercare.org") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_cancercareorg', nonInteraction: true });
+            }
+            else if (href.indexOf("www.cancersupportcommunity.com") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_cancersupportcommunity', nonInteraction: true });
+            }
+            else if (href.indexOf("www.nccn.org/patients") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_Resources_nccnorg', nonInteraction: true });
+            }
+            else if (href.indexOf("mhm.care4today.com") >= 0) {
+                ga('send', 'event', { eventCategory: 'Link', eventAction: 'Click', eventLabel: 'CLL_TakingIMB_Care4TodayLink', nonInteraction: true });
+            }
+        });
+    });
+
+}
